@@ -90,7 +90,7 @@ const Header = ({
           >
             {soundOn ? <FiVolume2 className="text-xl" /> : <FiVolumeX className="text-xl" />}
           </motion.button>
-g        </div>
+     </div>
       </div>
 
       {/* ── Progress Bar ── */}
