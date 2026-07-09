@@ -7,6 +7,7 @@ import LearningModal from "../components/LearningModal";
 import TreasureModal from "../components/Treasure";
 import Footer        from "../components/Footer";
 import { learningData } from "../data/learningData";
+import { useAdventureAudio } from "../context/AudioContext";
 
 const Home = () => {
   /* ── State ── */
@@ -17,9 +18,9 @@ const Home = () => {
   const [darkMode, setDarkMode]         = useState(() =>
     localStorage.getItem("treasure-dark") === "true"
   );
-  const [soundOn, setSoundOn] = useState(() =>
-    localStorage.getItem("treasure-sound") !== "false"
-  );
+
+  /* ── soundOn + toggleSound come from AudioContext (single source of truth) ── */
+  const { soundOn, toggleSound } = useAdventureAudio();
 
   /* ── Dark mode effect ── */
   useEffect(() => {
@@ -31,9 +32,7 @@ const Home = () => {
     localStorage.setItem("treasure-dark", darkMode);
   }, [darkMode]);
 
-  useEffect(() => {
-    localStorage.setItem("treasure-sound", soundOn);
-  }, [soundOn]);
+  // Note: soundOn localStorage persistence is handled inside AudioContext.
 
   /* ── Node click handler ── */
   const handleNodeClick = useCallback((day) => {
@@ -55,7 +54,7 @@ const Home = () => {
           darkMode={darkMode}
           onToggleDark={() => setDarkMode((d) => !d)}
           soundOn={soundOn}
-          onToggleSound={() => setSoundOn((s) => !s)}
+          onToggleSound={toggleSound}
           searchQuery={searchQuery}
           onSearchChange={setSearchQuery}
           filter={filter}
