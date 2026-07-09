@@ -80,7 +80,7 @@ const Header = ({
             {darkMode ? <FiSun className="text-xl" /> : <FiMoon className="text-xl" />}
           </motion.button>
 
-          {/* Sound toggle */}
+          {/* Sound toggle
           <motion.button
             onClick={onToggleSound}
             className="p-2.5 rounded-full bg-amber-800/20 border border-amber-700/30 text-amber-800 dark:text-amber-300 hover:bg-amber-800/40 transition-colors"
@@ -89,7 +89,7 @@ const Header = ({
             title={soundOn ? "Mute sounds" : "Enable sounds"}
           >
             {soundOn ? <FiVolume2 className="text-xl" /> : <FiVolumeX className="text-xl" />}
-          </motion.button>
+          </motion.button> */}
         </div>
       </div>
 
