@@ -6,6 +6,7 @@ import { motion } from "framer-motion";
 import DayNode from "./DayNode";
 import Explorer from "./Explorer";
 import { currentDayIndex } from "../data/learningData";
+import { useAdventureAudio } from "../context/AudioContext";
 
 /* ============================================================
    PATH LAYOUT — 7 nodes in a snake pattern
@@ -220,6 +221,9 @@ const Map = ({ data, filter, searchQuery, onNodeClick }) => {
   const [explorerPos, setExplorerPos] = useState(null);
   const [isMoving, setIsMoving]       = useState(false);
 
+  /* ── Audio hook — lets Map trigger the adventure soundtrack ── */
+  const { startAdventureMusic } = useAdventureAudio();
+
   /* Set explorer to default position on mount */
   useEffect(() => {
     const defaultIdx = Math.min(currentDayIndex, NODE_POSITIONS.length - 1);
@@ -231,8 +235,17 @@ const Map = ({ data, filter, searchQuery, onNodeClick }) => {
     setIsMoving(true);
     setExplorerPos(NODE_POSITIONS[index]);
     setTimeout(() => setIsMoving(false), 1200);
+
+    // ◀ MUSIC STARTS HERE — only fires on the very first Day 1 click ▶
+    // index 0 = Day 1 (the first node on the map).
+    // startAdventureMusic() is guarded inside AudioContext: subsequent calls
+    // from any day click (including Day 1 again) are silently ignored.
+    if (index === 0) {
+      startAdventureMusic();
+    }
+
     onNodeClick(day);
-  }, [onNodeClick]);
+  }, [onNodeClick, startAdventureMusic]);
 
   const svgPath = buildSVGPath(NODE_POSITIONS);
 

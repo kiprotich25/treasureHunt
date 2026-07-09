@@ -2,6 +2,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import confetti from "canvas-confetti";
+import { useAdventureAudio } from "../context/AudioContext";
 
 /* ── Coin element ── */
 const Coin = ({ id, x, y }) => (
@@ -23,13 +24,23 @@ const Coin = ({ id, x, y }) => (
 /**
  * TreasureModal — shown when the final day (treasure) is clicked and completed.
  * Fires confetti and coin animations.
+ *
+ * Audio lifecycle:
+ *   • 3 seconds after this modal mounts, stopAdventureMusic() is called.
+ *   • stopAdventureMusic() fades the music out over 3 s then stops it.
+ *   • If the player closes the modal before the fade finishes, the fade
+ *     continues independently inside the Audio object (no component state
+ *     is needed for this — it runs in the AudioContext interval).
  */
 const TreasureModal = ({ onClose }) => {
   const [coins, setCoins] = useState([]);
   const chestRef = useRef(null);
   const [chestOpen, setChestOpen] = useState(false);
 
-  /* Fire confetti */
+  /* ── Audio hook ── */
+  const { stopAdventureMusic } = useAdventureAudio();
+
+  /* Fire confetti and schedule music fade-out */
   useEffect(() => {
     const fire = () => {
       confetti({
@@ -55,8 +66,27 @@ const TreasureModal = ({ onClose }) => {
 
     setTimeout(() => setChestOpen(true), 400);
 
-    return () => { clearTimeout(t1); clearTimeout(t2); clearTimeout(t3); };
-  }, []);
+    // ◀ MUSIC STOPS HERE — 3 s after the treasure animation begins ▶
+    // stopAdventureMusic() starts a 3-second fade-out inside AudioContext.
+    // The fade runs via setInterval on the Audio object, so it continues
+    // even if the player closes this modal before the 3 s fade finishes.
+    const musicStopTimer = setTimeout(() => {
+      stopAdventureMusic();
+    }, 3000);
+
+    return () => {
+      clearTimeout(t1);
+      clearTimeout(t2);
+      clearTimeout(t3);
+      clearTimeout(musicStopTimer);
+      // NOTE: we do NOT cancel stopAdventureMusic() here. If the modal is
+      // closed before musicStopTimer fires, we call stopAdventureMusic()
+      // immediately so the fade-out begins right away rather than abruptly
+      // cutting the music. The AudioContext guard ensures it's a no-op if
+      // the music is already fading out.
+      stopAdventureMusic();
+    };
+  }, [stopAdventureMusic]);
 
   return (
     <AnimatePresence>
@@ -167,3 +197,4 @@ const TreasureModal = ({ onClose }) => {
 };
 
 export default TreasureModal;
+
