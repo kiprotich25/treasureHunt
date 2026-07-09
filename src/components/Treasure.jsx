@@ -46,7 +46,7 @@ const TreasureModal = ({ onClose }) => {
     const t3 = setTimeout(fire, 1700);
 
     /* Spawn coins */
-    const newCoins = Array.from({ length: 20 }, (_, i) => ({
+    const newCoins = Array.from({ length: 7 }, (_, i) => ({
       id: i,
       x: window.innerWidth  / 2 + (Math.random() - 0.5) * 100,
       y: window.innerHeight / 2 + (Math.random() - 0.5) * 100,
@@ -133,7 +133,8 @@ const TreasureModal = ({ onClose }) => {
 
           <p className="font-adventure text-amber-400/80 text-center text-sm md:text-base">
             You completed the entire month!<br />
-            The treasure is rightfully yours, Captain!
+            The treasure is rightfully yours, <br/>            
+             El Captaino!
           </p>
 
           <div className="flex gap-3 flex-wrap justify-center">

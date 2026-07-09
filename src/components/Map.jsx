@@ -26,12 +26,13 @@ const generatePath = () => {
 
   // Slight organic jitter for each node position
   const jitter = [
-    [0, 0], [2, -3], [-1, 2], [3, -1], [0, 3],
+     [0, 0],
+     [2, -3], [-1, 2], [3, -1], [-2, 3],
     [0, 0], [-2, 2], [1, -2], [-3, 1], [2, -3],
     [0, 0], [3, 2],  [-2, -1],[1, 3],  [-1, -2],
     [0, 0], [-3, -2],[2, 1],  [-1, -3],[3, 2],
     [0, 0], [2, -2], [-3, 1], [1, -1], [-2, 3],
-    [0, 0], [3, 1],  [-1, -2],[2, 2],  [0, 0],
+    [0, -2], [3, 1],  [-1, -2],[2, 2],  [-2, -4],
   ];
 
   for (let row = 0; row < rows; row++) {
@@ -99,7 +100,7 @@ const MapDecorations = () => (
 
     {/* Compass rose */}
     <motion.div
-      className="absolute top-[4%] right-[4%] text-5xl select-none opacity-70"
+      className="absolute top-[2%] right-[4%] text-5xl select-none opacity-70"
       animate={{ rotate: 360 }}
       transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
     >
@@ -148,7 +149,7 @@ const MapDecorations = () => (
     <div className="absolute bottom-2 right-2 text-xl text-amber-700/40 select-none">⚜</div>
 
     {/* "HERE BE DRAGONS" text */}
-    <div className="absolute bottom-[4%] left-1/2 -translate-x-1/2 font-adventure text-[10px] tracking-widest text-amber-700/30 select-none uppercase whitespace-nowrap">
+    <div className="absolute bottom-[19%] left-1/2 -translate-x-1/2 font-adventure text-[10px] tracking-widest text-amber-700/30 select-none uppercase whitespace-nowrap">
       ⚔ Here Be Dragons ⚔
     </div>
   </>
