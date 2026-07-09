@@ -1,0 +1,294 @@
+/* ============================================================
+   Learning Treasure Hunt — Global Styles
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Pirata+One&family=Cinzel:wght@400;600;700&family=Lato:wght@300;400;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── Base Reset ──────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Lato', sans-serif;
+  overflow-x: hidden;
+}
+
+/* ── Parchment Texture Background ───────────────────────── */
+.parchment-bg {
+  background-color: #F4E4BC;
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.07'/%3E%3C/svg%3E"),
+    radial-gradient(ellipse at 20% 20%, rgba(210,180,140,0.3) 0%, transparent 60%),
+    radial-gradient(ellipse at 80% 80%, rgba(160,120,70,0.2) 0%, transparent 60%);
+}
+
+.dark .parchment-bg {
+  background-color: #2a1f0e;
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.1'/%3E%3C/svg%3E"),
+    radial-gradient(ellipse at 20% 20%, rgba(60,40,15,0.4) 0%, transparent 60%);
+}
+
+/* ── Map Area ────────────────────────────────────────────── */
+.map-area {
+  background:
+    radial-gradient(ellipse at 30% 70%, rgba(26,107,138,0.35) 0%, transparent 50%),
+    radial-gradient(ellipse at 70% 30%, rgba(26,107,138,0.25) 0%, transparent 50%),
+    linear-gradient(135deg, #E8D5A3 0%, #F4E4BC 40%, #EDD4A0 70%, #E0BE7A 100%);
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23noise)' opacity='0.06'/%3E%3C/svg%3E"),
+    radial-gradient(ellipse at 30% 70%, rgba(26,107,138,0.35) 0%, transparent 50%),
+    radial-gradient(ellipse at 70% 30%, rgba(26,107,138,0.25) 0%, transparent 50%),
+    linear-gradient(135deg, #E8D5A3 0%, #F4E4BC 40%, #EDD4A0 70%, #E0BE7A 100%);
+  border: 4px solid #8B4513;
+  border-radius: 16px;
+  box-shadow: inset 0 0 80px rgba(139,69,19,0.25), 0 12px 40px rgba(0,0,0,0.5);
+  position: relative;
+  overflow: hidden;
+}
+
+.dark .map-area {
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='400' height='400' filter='url(%23noise)' opacity='0.1'/%3E%3C/svg%3E"),
+    radial-gradient(ellipse at 30% 70%, rgba(15,61,85,0.5) 0%, transparent 50%),
+    radial-gradient(ellipse at 70% 30%, rgba(15,61,85,0.4) 0%, transparent 50%),
+    linear-gradient(135deg, #2a1f0e 0%, #1a1206 40%, #241a0a 70%, #1a1206 100%);
+}
+
+/* ── Ocean Section ───────────────────────────────────────── */
+.ocean-blob {
+  background: radial-gradient(ellipse, rgba(26,107,138,0.5) 0%, rgba(26,107,138,0.2) 60%, transparent 100%);
+  border-radius: 40% 60% 70% 30% / 30% 40% 60% 70%;
+  animation: morphBlob 8s ease-in-out infinite;
+}
+
+@keyframes morphBlob {
+  0%, 100% { border-radius: 40% 60% 70% 30% / 30% 40% 60% 70%; }
+  33%       { border-radius: 70% 30% 40% 60% / 60% 70% 30% 40%; }
+  66%       { border-radius: 30% 70% 60% 40% / 70% 30% 40% 60%; }
+}
+
+/* ── Day Node ────────────────────────────────────────────── */
+.day-node {
+  cursor: pointer;
+  position: absolute;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+  transition: filter 0.2s ease;
+}
+
+.day-node:hover {
+  filter: brightness(1.15);
+}
+
+.node-completed {
+  filter: drop-shadow(0 0 8px rgba(212,160,23,0.8));
+}
+
+.node-current {
+  filter: drop-shadow(0 0 10px rgba(26,143,199,0.9));
+}
+
+.node-future {
+  filter: grayscale(0.6) brightness(0.85);
+}
+
+/* ── Dotted Path ─────────────────────────────────────────── */
+.treasure-path {
+  stroke-dasharray: 8 6;
+  stroke-dashoffset: 0;
+  animation: dashMove 2s linear infinite;
+}
+
+@keyframes dashMove {
+  to { stroke-dashoffset: -28; }
+}
+
+/* ── Modal ───────────────────────────────────────────────── */
+.modal-backdrop {
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.modal-card {
+  background: linear-gradient(145deg, #FDF8F0 0%, #F4E4BC 50%, #EDD4A0 100%);
+  border: 3px solid #8B4513;
+  box-shadow:
+    0 25px 60px rgba(0,0,0,0.5),
+    inset 0 1px 0 rgba(255,255,255,0.6),
+    inset 0 -2px 0 rgba(139,69,19,0.2);
+}
+
+.dark .modal-card {
+  background: linear-gradient(145deg, #2a1f0e 0%, #1a1206 50%, #0f0a03 100%);
+}
+
+/* ── Scroll Customization ────────────────────────────────── */
+.map-scroll::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+.map-scroll::-webkit-scrollbar-track {
+  background: #c8a97a;
+  border-radius: 5px;
+}
+
+.map-scroll::-webkit-scrollbar-thumb {
+  background: #8B4513;
+  border-radius: 5px;
+  border: 2px solid #c8a97a;
+}
+
+/* ── Treasure Glow ───────────────────────────────────────── */
+.treasure-glow {
+  animation: treasureGlow 2s ease-in-out infinite;
+}
+
+@keyframes treasureGlow {
+  0%, 100% {
+    filter: drop-shadow(0 0 15px rgba(255,215,0,0.8)) drop-shadow(0 0 30px rgba(212,160,23,0.5));
+  }
+  50% {
+    filter: drop-shadow(0 0 30px rgba(255,215,0,1)) drop-shadow(0 0 60px rgba(212,160,23,0.8));
+  }
+}
+
+/* ── Explorer Character ──────────────────────────────────── */
+.explorer-char {
+  font-size: 2rem;
+  filter: drop-shadow(0 4px 6px rgba(0,0,0,0.5));
+  position: absolute;
+  pointer-events: none;
+  z-index: 20;
+  transform: translate(-50%, -100%);
+}
+
+/* ── Stars / Sparkles ────────────────────────────────────── */
+.sparkle-dot {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255,215,0,0.8);
+  animation: sparkle 1.5s ease-in-out infinite;
+}
+
+/* ── Difficulty Stars ────────────────────────────────────── */
+.star-filled { color: #D4A017; }
+.star-empty  { color: #d4c4a0; }
+
+/* ── Loading Screen ──────────────────────────────────────── */
+.loading-screen {
+  background: radial-gradient(ellipse at center, #2a1206 0%, #0a0603 100%);
+}
+
+/* ── Compass ─────────────────────────────────────────────── */
+.compass-needle {
+  transform-origin: center;
+}
+
+/* ── Utility ─────────────────────────────────────────────── */
+.font-pirate    { font-family: 'Pirata One', cursive; }
+.font-adventure { font-family: 'Cinzel', serif; }
+.text-shadow-gold {
+  text-shadow: 0 0 10px rgba(212,160,23,0.8), 2px 2px 4px rgba(0,0,0,0.6);
+}
+.text-shadow-dark {
+  text-shadow: 2px 2px 6px rgba(0,0,0,0.8);
+}
+
+/* ── Coins ───────────────────────────────────────────────── */
+.coin {
+  position: fixed;
+  font-size: 1.5rem;
+  pointer-events: none;
+  z-index: 9999;
+  animation: coinFly var(--duration, 1.5s) ease-out forwards;
+}
+
+@keyframes coinFly {
+  0% {
+    transform: translate(0, 0) rotate(0deg) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(var(--dx, 100px), var(--dy, -200px)) rotate(720deg) scale(0);
+    opacity: 0;
+  }
+}
+
+/* ── Achievement Badge ───────────────────────────────────── */
+.badge-glow {
+  box-shadow: 0 0 15px rgba(212,160,23,0.6), 0 4px 12px rgba(0,0,0,0.3);
+}
+
+/* ── Progress Bar ────────────────────────────────────────── */
+.progress-track {
+  background: rgba(139,69,19,0.3);
+  border: 2px solid rgba(139,69,19,0.5);
+}
+
+.progress-fill {
+  background: linear-gradient(90deg, #D4A017 0%, #FFD700 50%, #D4A017 100%);
+  background-size: 200% 100%;
+  animation: shimmer 2s linear infinite;
+}
+
+@keyframes shimmer {
+  0%   { background-position: 200% center; }
+  100% { background-position: -200% center; }
+}
+
+/* ── Bird ────────────────────────────────────────────────── */
+.bird {
+  position: absolute;
+  font-size: 1.2rem;
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+/* ── Cloud ───────────────────────────────────────────────── */
+.cloud {
+  position: absolute;
+  pointer-events: none;
+  opacity: 0.65;
+  font-size: 2.5rem;
+}
+
+/* ── Filter Bar ──────────────────────────────────────────── */
+.filter-btn {
+  @apply px-4 py-2 rounded-full text-sm font-semibold transition-all duration-200;
+  border: 2px solid rgba(139,69,19,0.4);
+  background: rgba(244,228,188,0.7);
+  color: #5C2E00;
+}
+
+.filter-btn.active,
+.filter-btn:hover {
+  background: #8B4513;
+  color: #FFF8DC;
+  border-color: #8B4513;
+  box-shadow: 0 4px 12px rgba(139,69,19,0.4);
+}
+
+.dark .filter-btn {
+  background: rgba(42,31,14,0.7);
+  color: #E8D5A3;
+  border-color: rgba(212,160,23,0.4);
+}
+
+.dark .filter-btn.active,
+.dark .filter-btn:hover {
+  background: #D4A017;
+  color: #1a0a00;
+}
