@@ -37,7 +37,7 @@ const Header = ({
 
           <div>
             <motion.h1
-              className="font-pirate text-4xl md:text-5xl text-amber-900 dark:text-amber-300 text-shadow-gold leading-tight"
+              className="font-pirate text-3xl sm:text-4xl md:text-5xl text-amber-900 dark:text-amber-300 text-shadow-gold leading-tight"
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.2, duration: 0.6 }}
@@ -97,14 +97,15 @@ const Header = ({
       <ProgressBar completed={completedDays} total={totalDays} />
 
       {/* ── Search & Filter Row ── */}
+      {/* ✏️ EDITED: stacks vertically on mobile, side-by-side on sm+ */}
       <motion.div
-        className="flex flex-wrap items-center gap-3 mt-4"
+        className="flex flex-col sm:flex-row sm:flex-wrap items-stretch sm:items-center gap-3 mt-4"
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.5, duration: 0.5 }}
       >
         {/* Search */}
-        <div className="relative flex-1 min-w-[200px] max-w-sm">
+        <div className="relative w-full sm:flex-1 sm:min-w-[180px] sm:max-w-sm">
           <FiSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-amber-700 dark:text-amber-400" />
           <input
             type="text"
@@ -115,12 +116,12 @@ const Header = ({
           />
         </div>
 
-        {/* Filter Buttons */}
-        <div className="flex gap-2">
+        {/* Filter Buttons — wrap on tiny screens */}
+        <div className="flex flex-wrap gap-2">
           {[
-            { id: "all",       label: "All Days" },
-            { id: "completed", label: "✓ Completed" },
-            { id: "incomplete",label: "○ Incomplete" },
+            { id: "all",        label: "All Days" },
+            { id: "completed",  label: "✓ Done" },
+            { id: "incomplete", label: "○ Upcoming" },
           ].map((f) => (
             <button
               key={f.id}

@@ -1,18 +1,20 @@
 /////////////////////////////////////////////
-// EDIT YOUR MONTHLY LEARNING HERE
+// ✏️  EDIT YOUR MONTHLY LEARNING HERE
 // This is the ONLY file you need to modify.
 // The entire UI will automatically update!
 /////////////////////////////////////////////
 
-// Location types mapped to icons and map visuals
-// Available locations: "ship", "palm", "camp", "cave", "mountain",
-// "waterfall", "dock", "lighthouse", "bridge", "ruins",
-// "volcano", "jungle", "beach", "fortress", "lagoon",
-// "market", "temple", "canyon", "oasis", "glacier",
-// "reef", "cliff", "harbor", "canyon", "swamp",
-// "meadow", "desert", "forest", "tower", "treasure"
+// Available locationType values:
+// "ship" | "palm" | "camp" | "cave" | "mountain" | "waterfall"
+// "dock" | "lighthouse" | "bridge" | "ruins" | "volcano" | "jungle"
+// "beach" | "fortress" | "lagoon" | "market" | "temple" | "canyon"
+// "oasis" | "glacier" | "reef" | "cliff" | "harbor" | "swamp"
+// "meadow" | "desert" | "forest" | "tower" | "treasure"
 
 export const learningData = [
+  // ─────────────────────────────────────────────
+  // DAY 1
+  // ─────────────────────────────────────────────
   {
     day: 1,
     title: "Setting Sail",
@@ -26,6 +28,9 @@ export const learningData = [
     badge: "Pioneer",
     streak: 1,
   },
+  // ─────────────────────────────────────────────
+  // DAY 2
+  // ─────────────────────────────────────────────
   {
     day: 2,
     title: "First Landfall",
@@ -33,12 +38,15 @@ export const learningData = [
     locationType: "palm",
     timeSpent: "3h",
     difficulty: 2,
-    completed: false,
+    completed: true,
     topics: ["Props & State", "useState hook", "Event handling"],
     notes: "Discovered how React state works. Props passing between components finally clicked today.",
     badge: "Explorer",
     streak: 2,
   },
+  // ─────────────────────────────────────────────
+  // DAY 3
+  // ─────────────────────────────────────────────
   {
     day: 3,
     title: "Base Camp",
@@ -52,6 +60,9 @@ export const learningData = [
     badge: "Scout",
     streak: 3,
   },
+  // ─────────────────────────────────────────────
+  // DAY 4
+  // ─────────────────────────────────────────────
   {
     day: 4,
     title: "Into the Dark",
@@ -59,339 +70,49 @@ export const learningData = [
     locationType: "cave",
     timeSpent: "4h",
     difficulty: 4,
-    completed: true,
+    completed: false,
     topics: ["Context API", "useContext", "Global state management"],
-    notes: "Context was mind-blowing. Prop drilling problem is now solved. Created a theme context for a small project.",
-    badge: "Spelunker",
-    streak: 4,
+    notes: "",
+    badge: "",
+    streak: 0,
   },
+  // ─────────────────────────────────────────────
+  // DAY 5
+  // ─────────────────────────────────────────────
   {
     day: 5,
     title: "The Climb",
     location: "Dragon Peak",
     locationType: "mountain",
-    timeSpent: "5h",
-    difficulty: 5,
+    timeSpent: "",
+    difficulty: 0,
     completed: false,
     topics: ["React Router", "Navigation", "URL params", "Nested routes"],
-    notes: "React Router v6 is very different from v5! The new outlet system and nested routing concepts took time but make sense now.",
-    badge: "Mountaineer",
-    streak: 5,
+    notes: "",
+    badge: "",
+    streak: 0,
   },
+  // ─────────────────────────────────────────────
+  // DAY 6
+  // ─────────────────────────────────────────────
   {
     day: 6,
     title: "Hidden Falls",
     location: "Crystal Waterfall",
     locationType: "waterfall",
-    timeSpent: "3h",
-    difficulty: 3,
+    timeSpent: "",
+    difficulty: 0,
     completed: false,
     topics: ["Custom hooks", "Code reuse", "useLocalStorage", "useFetch"],
-    notes: "Custom hooks are elegant! Built a useLocalStorage hook and a generic useFetch. Clean code patterns emerging.",
-    badge: "Craftsman",
-    streak: 6,
+    notes: "",
+    badge: "",
+    streak: 0,
   },
+  // ─────────────────────────────────────────────
+  // DAY 7 — FINAL TREASURE (always keep locationType: "treasure" on the last day)
+  // ─────────────────────────────────────────────
   {
     day: 7,
-    title: "Port of Call",
-    location: "Adventure Dock",
-    locationType: "dock",
-    timeSpent: "2h 30m",
-    difficulty: 2,
-    completed: true,
-    topics: ["Tailwind CSS basics", "Utility classes", "Responsive design"],
-    notes: "Tailwind feels weird at first but the speed boost is incredible. Responsive breakpoints are intuitive.",
-    badge: "Sailor",
-    streak: 7,
-  },
-  {
-    day: 8,
-    title: "Lighthouse Watch",
-    location: "Beacon Point",
-    locationType: "lighthouse",
-    timeSpent: "3h 30m",
-    difficulty: 3,
-    completed: false,
-    topics: ["Framer Motion basics", "Animations", "Variants", "AnimatePresence"],
-    notes: "Framer Motion is pure joy! Variants make complex animations manageable. The AnimatePresence component is magical for exit animations.",
-    badge: "Navigator",
-    streak: 8,
-  },
-  {
-    day: 9,
-    title: "Bridge Crossing",
-    location: "Old Stone Bridge",
-    locationType: "bridge",
-    timeSpent: "4h",
-    difficulty: 4,
-    completed: true,
-    topics: ["TypeScript intro", "Types & Interfaces", "Generics basics"],
-    notes: "TypeScript is a game-changer for large projects. The type safety catches bugs before runtime. Interface vs Type still confuses me sometimes.",
-    badge: "Builder",
-    streak: 9,
-  },
-  {
-    day: 10,
-    title: "Ancient Ruins",
-    location: "Lost Temple",
-    locationType: "ruins",
-    timeSpent: "3h",
-    difficulty: 3,
-    completed: true,
-    topics: ["API calls", "Fetch API", "Async/Await", "Error handling"],
-    notes: "Connected to a public API for the first time! Error boundary components are essential for production apps.",
-    badge: "Archaeologist",
-    streak: 10,
-  },
-  {
-    day: 11,
-    title: "Fire Mountain",
-    location: "Volcano Summit",
-    locationType: "volcano",
-    timeSpent: "5h",
-    difficulty: 5,
-    completed: true,
-    topics: ["Redux Toolkit", "Slices", "Thunks", "RTK Query"],
-    notes: "Redux was intimidating but RTK simplified everything massively. RTK Query replaces most manual fetch logic!",
-    badge: "Alchemist",
-    streak: 11,
-  },
-  {
-    day: 12,
-    title: "Jungle Trek",
-    location: "Deep Jungle",
-    locationType: "jungle",
-    timeSpent: "3h 30m",
-    difficulty: 3,
-    completed: true,
-    topics: ["CSS Grid", "Flexbox advanced", "Responsive layouts"],
-    notes: "CSS Grid finally makes sense! The combination of Grid for layout and Flexbox for alignment is powerful.",
-    badge: "Pathfinder",
-    streak: 12,
-  },
-  {
-    day: 13,
-    title: "Golden Shore",
-    location: "Sunlit Beach",
-    locationType: "beach",
-    timeSpent: "2h",
-    difficulty: 2,
-    completed: false,
-    topics: ["React Testing Library", "Unit tests", "jest basics"],
-    notes: "Testing felt boring at first but writing tests actually helped me understand my code better. TDD mindset shifting.",
-    badge: "Guardian",
-    streak: 13,
-  },
-  {
-    day: 14,
-    title: "The Fortress",
-    location: "Iron Fortress",
-    locationType: "fortress",
-    timeSpent: "4h 30m",
-    difficulty: 4,
-    completed: true,
-    topics: ["Authentication", "JWT tokens", "Protected routes", "Auth context"],
-    notes: "Built a complete auth flow with login/logout, protected routes and persistent sessions. Security patterns are crucial!",
-    badge: "Guardian",
-    streak: 14,
-  },
-  {
-    day: 15,
-    title: "Blue Lagoon",
-    location: "Sapphire Lagoon",
-    locationType: "lagoon",
-    timeSpent: "3h",
-    difficulty: 3,
-    completed: false,
-    topics: ["Form handling", "React Hook Form", "Validation", "Zod"],
-    notes: "React Hook Form + Zod is the perfect combo. Validation schemas are reusable and the performance is excellent.",
-    badge: "Diplomat",
-    streak: 15,
-  },
-  {
-    day: 16,
-    title: "The Market",
-    location: "Trader's Market",
-    locationType: "market",
-    timeSpent: "3h 30m",
-    difficulty: 3,
-    completed: false,
-    topics: ["Performance optimization", "useMemo", "useCallback", "React.memo"],
-    notes: "Learned when to optimize (not always!). Profiler tool is very helpful. Premature optimization is the root of all evil.",
-    badge: "Merchant",
-    streak: 16,
-  },
-  {
-    day: 17,
-    title: "Sacred Temple",
-    location: "Ancient Temple",
-    locationType: "temple",
-    timeSpent: "5h",
-    difficulty: 5,
-    completed: true,
-    topics: ["GraphQL basics", "Apollo Client", "Queries & Mutations"],
-    notes: "GraphQL is a different paradigm! Asking for exactly what you need is elegant. Apollo DevTools are very helpful.",
-    badge: "Scholar",
-    streak: 17,
-  },
-  {
-    day: 18,
-    title: "Canyon View",
-    location: "Grand Canyon",
-    locationType: "canyon",
-    timeSpent: "4h",
-    difficulty: 4,
-    completed: true,
-    topics: ["Next.js intro", "SSR vs SSG", "App Router", "Server Components"],
-    notes: "Next.js App Router is a paradigm shift! Server Components running on the server reduces client bundle significantly.",
-    badge: "Visionary",
-    streak: 18,
-  },
-  {
-    day: 19,
-    title: "Desert Oasis",
-    location: "Golden Oasis",
-    locationType: "oasis",
-    timeSpent: "2h 30m",
-    difficulty: 2,
-    completed: false,
-    topics: ["Docker basics", "Containerization", "Docker Compose"],
-    notes: "",
-    badge: "",
-    streak: 0,
-  },
-  {
-    day: 20,
-    title: "Frozen Peak",
-    location: "Ice Glacier",
-    locationType: "glacier",
-    timeSpent: "",
-    difficulty: 0,
-    completed: false,
-    topics: ["CI/CD pipelines", "GitHub Actions", "Automated testing"],
-    notes: "",
-    badge: "",
-    streak: 0,
-  },
-  {
-    day: 21,
-    title: "Coral Kingdom",
-    location: "Rainbow Reef",
-    locationType: "reef",
-    timeSpent: "",
-    difficulty: 0,
-    completed: false,
-    topics: ["Web Sockets", "Real-time apps", "Socket.io"],
-    notes: "",
-    badge: "",
-    streak: 0,
-  },
-  {
-    day: 22,
-    title: "The Cliff",
-    location: "Eagle Cliff",
-    locationType: "cliff",
-    timeSpent: "",
-    difficulty: 0,
-    completed: true,
-    topics: ["Accessibility (a11y)", "ARIA labels", "Keyboard navigation"],
-    notes: "",
-    badge: "",
-    streak: 0,
-  },
-  {
-    day: 23,
-    title: "Safe Harbor",
-    location: "Grand Harbor",
-    locationType: "harbor",
-    timeSpent: "",
-    difficulty: 0,
-    completed: false,
-    topics: ["Web performance", "Lighthouse", "Core Web Vitals"],
-    notes: "",
-    badge: "",
-    streak: 0,
-  },
-  {
-    day: 24,
-    title: "Misty Swamp",
-    location: "Foggy Swamp",
-    locationType: "swamp",
-    timeSpent: "",
-    difficulty: 0,
-    completed: true,
-    topics: ["Design Patterns", "Factory", "Observer", "Strategy"],
-    notes: "",
-    badge: "",
-    streak: 0,
-  },
-  {
-    day: 25,
-    title: "Green Meadow",
-    location: "Emerald Meadow",
-    locationType: "meadow",
-    timeSpent: "",
-    difficulty: 0,
-    completed: false,
-    topics: ["Micro-frontends", "Module Federation", "Monorepos"],
-    notes: "",
-    badge: "",
-    streak: 0,
-  },
-  {
-    day: 26,
-    title: "Endless Desert",
-    location: "Sahara Dunes",
-    locationType: "desert",
-    timeSpent: "",
-    difficulty: 0,
-    completed: true,
-    topics: ["Web Security", "XSS", "CSRF", "Content Security Policy"],
-    notes: "",
-    badge: "",
-    streak: 0,
-  },
-  {
-    day: 27,
-    title: "Ancient Forest",
-    location: "Enchanted Forest",
-    locationType: "forest",
-    timeSpent: "",
-    difficulty: 0,
-    completed: false,
-    topics: ["Node.js advanced", "Streams", "Worker Threads", "Clustering"],
-    notes: "",
-    badge: "",
-    streak: 0,
-  },
-  {
-    day: 28,
-    title: "The Watchtower",
-    location: "Ivory Tower",
-    locationType: "tower",
-    timeSpent: "",
-    difficulty: 0,
-    completed: true,
-    topics: ["System Design", "Scalability", "Load Balancing", "Caching"],
-    notes: "",
-    badge: "",
-    streak: 0,
-  },
-  {
-    day: 29,
-    title: "Final Approach",
-    location: "The Last Outpost",
-    locationType: "ruins",
-    timeSpent: "",
-    difficulty: 0,
-    completed: false,
-    topics: ["Portfolio project", "Deployment", "Vercel", "Domain setup"],
-    notes: "",
-    badge: "",
-    streak: 0,
-  },
-  {
-    day: 30,
     title: "The Grand Treasure",
     location: "Treasure Island",
     locationType: "treasure",
@@ -399,7 +120,7 @@ export const learningData = [
     difficulty: 0,
     completed: true,
     topics: ["Project showcase", "Reflections", "Next goals"],
-    notes: "The end of month 3 — but the beginning of a great journey!",
+    notes: "The end of the week — but the beginning of a great journey!",
     badge: "Legend",
     streak: 0,
   },
@@ -410,9 +131,11 @@ export const learningData = [
 // Do not modify anything below this line
 /////////////////////////////////////////////
 
-// Derived data helpers — auto-calculated from learningData above
-export const totalDays = learningData.length;
-export const completedDays = learningData.filter((d) => d.completed).length;
-export const currentDayIndex = completedDays < totalDays ? completedDays : totalDays - 1;
+// Derived data — auto-calculated from learningData above
+export const totalDays          = learningData.length;
+export const completedDays      = learningData.filter((d) => d.completed).length;
+export const currentDayIndex    = completedDays < totalDays ? completedDays : totalDays - 1;
 export const completionPercentage = Math.round((completedDays / totalDays) * 100);
-export const streakCount = learningData.filter((d) => d.completed).reduce((max, d) => Math.max(max, d.streak || 0), 0);
+export const streakCount        = learningData
+  .filter((d) => d.completed)
+  .reduce((max, d) => Math.max(max, d.streak || 0), 0);

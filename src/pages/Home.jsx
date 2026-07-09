@@ -63,20 +63,19 @@ const Home = () => {
         />
 
         {/* ── Map ── */}
+        {/* ✏️ EDITED: removed minWidth wrapper — map is fully fluid on all screens */}
         <motion.div
-          className="mt-4 map-scroll overflow-x-auto"
+          className="mt-4"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3, duration: 0.6 }}
         >
-          <div style={{ minWidth: "500px" }}>
-            <Map
-              data={learningData}
-              filter={filter}
-              searchQuery={searchQuery}
-              onNodeClick={handleNodeClick}
-            />
-          </div>
+          <Map
+            data={learningData}
+            filter={filter}
+            searchQuery={searchQuery}
+            onNodeClick={handleNodeClick}
+          />
         </motion.div>
 
         {/* ── Legend ── */}

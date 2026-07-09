@@ -1,59 +1,36 @@
 // Map.jsx — The full pirate treasure map with snaking path, nodes, and decorations
+// ✏️  EDITED: Path layout updated for 7 nodes (was 30)
+// ✏️  EDITED: Map height is now fully responsive (clamp removed, uses aspect-ratio on mobile)
 import { useRef, useState, useEffect, useCallback } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import DayNode from "./DayNode";
 import Explorer from "./Explorer";
 import { currentDayIndex } from "../data/learningData";
 
 /* ============================================================
-   PATH LAYOUT — 30 nodes in a snake pattern across 6 rows
+   PATH LAYOUT — 7 nodes in a snake pattern
+   ✏️  CHANGED: was 6 rows × 5 cols (30 nodes)
+                now 2 rows × 4 cols, but last row has 3 nodes
    Positions are percentages [x%, y%] of the map container.
-   Row alternates L→R and R→L for snake effect.
    ============================================================ */
 const generatePath = () => {
-  const positions = [];
-
-  // 6 rows × 5 columns = 30 nodes
-  const rows = 6;
-  const cols = 5;
-  const xStart = 8;
-  const xEnd   = 92;
-  const yStart = 8;
-  const yEnd   = 92;
-
-  const xStep = (xEnd - xStart) / (cols - 1);
-  const yStep = (yEnd - yStart) / (rows - 1);
-
-  // Slight organic jitter for each node position
-  const jitter = [
-     [0, 0],
-     [2, -3], [-1, 2], [3, -1], [-2, 3],
-    [0, 0], [-2, 2], [1, -2], [-3, 1], [2, -3],
-    [0, 0], [3, 2],  [-2, -1],[1, 3],  [-1, -2],
-    [0, 0], [-3, -2],[2, 1],  [-1, -3],[3, 2],
-    [0, 0], [2, -2], [-3, 1], [1, -1], [-2, 3],
-    [0, -2], [3, 1],  [-1, -2],[2, 2],  [-2, -4],
+  // 7 hard-coded positions that snake nicely across the map
+  // Row 1 (L→R): days 1-4   at y ≈ 30%
+  // Row 2 (R→L): days 5-7   at y ≈ 70%
+  return [
+    { x: 10,  y: 28 },  // Day 1 — Ship
+    { x: 33,  y: 22 },  // Day 2 — Palm
+    { x: 56,  y: 30 },  // Day 3 — Camp
+    { x: 80,  y: 24 },  // Day 4 — Cave
+    { x: 78,  y: 68 },  // Day 5 — Mountain (turns down)
+    { x: 50,  y: 74 },  // Day 6 — Waterfall
+    { x: 20,  y: 70 },  // Day 7 — Treasure
   ];
-
-  for (let row = 0; row < rows; row++) {
-    const y = yStart + row * yStep;
-    const leftToRight = row % 2 === 0;
-
-    for (let col = 0; col < cols; col++) {
-      const xCol = leftToRight ? col : (cols - 1 - col);
-      const x = xStart + xCol * xStep;
-      const idx = row * cols + col;
-      const [jx, jy] = jitter[idx] || [0, 0];
-      positions.push({ x: x + jx, y: y + jy });
-    }
-  }
-
-  return positions;
 };
 
 export const NODE_POSITIONS = generatePath();
 
-/* Build SVG path string from node positions */
+/* Build SVG path string connecting all positions */
 const buildSVGPath = (positions) => {
   if (positions.length === 0) return "";
   const pts = positions.map(({ x, y }) => `${x},${y}`);
@@ -64,18 +41,18 @@ const buildSVGPath = (positions) => {
 const MapDecorations = () => (
   <>
     {/* Ocean blobs */}
-    <div className="ocean-blob absolute w-48 h-32 top-[15%] left-[2%] opacity-60" />
-    <div className="ocean-blob absolute w-64 h-40 bottom-[10%] right-[5%] opacity-50"
-      style={{ animationDelay: "-3s", animationDuration: "11s" }} />
-    <div className="ocean-blob absolute w-40 h-28 top-[55%] left-[60%] opacity-40"
-      style={{ animationDelay: "-5s", animationDuration: "9s" }} />
+    <div className="ocean-blob absolute w-40 h-28 top-[10%] left-[1%] opacity-50" />
+    <div
+      className="ocean-blob absolute w-56 h-36 bottom-[8%] right-[3%] opacity-45"
+      style={{ animationDelay: "-3s", animationDuration: "11s" }}
+    />
 
     {/* Islands */}
     {[
-      { top: "12%", left: "3%",  size: "text-4xl", emoji: "🏝", delay: "0s" },
-      { top: "75%", right: "3%", size: "text-3xl", emoji: "🏝", delay: "-2s" },
-      { top: "40%", left: "1%",  size: "text-2xl", emoji: "🏔", delay: "-4s" },
-      { top: "20%", right: "2%", size: "text-3xl", emoji: "⛰", delay: "-1s" },
+      { top: "8%",  left: "2%",   size: "text-3xl md:text-4xl", emoji: "🏝", delay: "0s"  },
+      { top: "72%", right: "2%",  size: "text-2xl md:text-3xl", emoji: "🏝", delay: "-2s" },
+      { top: "42%", left: "0.5%", size: "text-xl  md:text-2xl", emoji: "🏔", delay: "-4s" },
+      { top: "15%", right: "1%",  size: "text-2xl md:text-3xl", emoji: "⛰", delay: "-1s" },
     ].map((item, i) => (
       <motion.div
         key={i}
@@ -90,7 +67,7 @@ const MapDecorations = () => (
 
     {/* Pirate ship decoration */}
     <motion.div
-      className="absolute bottom-[8%] left-[8%] text-4xl select-none"
+      className="absolute bottom-[12%] left-[5%] text-3xl md:text-4xl select-none"
       animate={{ x: [0, 8, 0], rotate: [-2, 2, -2] }}
       transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
       title="The Pirate Ship"
@@ -100,7 +77,7 @@ const MapDecorations = () => (
 
     {/* Compass rose */}
     <motion.div
-      className="absolute top-[2%] right-[4%] text-5xl select-none opacity-70"
+      className="absolute top-[2%] right-[3%] text-3xl md:text-5xl select-none opacity-70"
       animate={{ rotate: 360 }}
       transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
     >
@@ -109,9 +86,9 @@ const MapDecorations = () => (
 
     {/* Palm trees */}
     {[
-      { top: "30%", left: "4%",  size: "text-3xl" },
-      { top: "60%", right: "4%", size: "text-2xl" },
-      { top: "8%",  left: "45%", size: "text-2xl" },
+      { top: "28%", left: "3%",  size: "text-2xl md:text-3xl" },
+      { top: "58%", right: "3%", size: "text-xl  md:text-2xl" },
+      { top: "6%",  left: "44%", size: "text-xl  md:text-2xl" },
     ].map((item, i) => (
       <motion.div
         key={i}
@@ -126,9 +103,9 @@ const MapDecorations = () => (
 
     {/* Rocks */}
     {[
-      { bottom: "20%", left: "30%",  size: "text-2xl" },
-      { top: "45%",    right: "20%", size: "text-xl" },
-      { top: "70%",    left: "15%",  size: "text-lg" },
+      { bottom: "22%", left: "28%",  size: "text-xl md:text-2xl" },
+      { top: "48%",    right: "18%", size: "text-lg md:text-xl"  },
+      { top: "68%",    left: "14%",  size: "text-base md:text-lg"},
     ].map((item, i) => (
       <div
         key={i}
@@ -139,17 +116,17 @@ const MapDecorations = () => (
       </div>
     ))}
 
-    {/* Cave decoration */}
-    <div className="absolute top-[50%] right-[8%] text-3xl select-none opacity-70">🕳</div>
+    {/* Cave */}
+    <div className="absolute top-[48%] right-[6%] text-2xl md:text-3xl select-none opacity-70">🕳</div>
 
     {/* Map border ornaments */}
-    <div className="absolute top-2 left-2 text-xl text-amber-700/40 select-none">⚜</div>
-    <div className="absolute top-2 right-2 text-xl text-amber-700/40 select-none">⚜</div>
-    <div className="absolute bottom-2 left-2 text-xl text-amber-700/40 select-none">⚜</div>
-    <div className="absolute bottom-2 right-2 text-xl text-amber-700/40 select-none">⚜</div>
+    <div className="absolute top-1.5 left-1.5 text-base md:text-xl text-amber-700/40 select-none">⚜</div>
+    <div className="absolute top-1.5 right-1.5 text-base md:text-xl text-amber-700/40 select-none">⚜</div>
+    <div className="absolute bottom-1.5 left-1.5 text-base md:text-xl text-amber-700/40 select-none">⚜</div>
+    <div className="absolute bottom-1.5 right-1.5 text-base md:text-xl text-amber-700/40 select-none">⚜</div>
 
-    {/* "HERE BE DRAGONS" text */}
-    <div className="absolute bottom-[19%] left-1/2 -translate-x-1/2 font-adventure text-[10px] tracking-widest text-amber-700/30 select-none uppercase whitespace-nowrap">
+    {/* Flavour text */}
+    <div className="absolute bottom-[3%] left-1/2 -translate-x-1/2 font-adventure text-[9px] md:text-[10px] tracking-widest text-amber-700/30 select-none uppercase whitespace-nowrap">
       ⚔ Here Be Dragons ⚔
     </div>
   </>
@@ -158,11 +135,10 @@ const MapDecorations = () => (
 /* ── Floating Clouds ── */
 const FloatingClouds = () => {
   const clouds = [
-    { top: "5%",  duration: 40, size: "text-3xl", delay: 0  },
-    { top: "15%", duration: 55, size: "text-4xl", delay: -15 },
-    { top: "3%",  duration: 35, size: "text-2xl", delay: -8  },
+    { top: "5%",  duration: 40, size: "text-2xl md:text-3xl", delay: 0   },
+    { top: "14%", duration: 55, size: "text-3xl md:text-4xl", delay: -15 },
+    { top: "3%",  duration: 35, size: "text-xl  md:text-2xl", delay: -8  },
   ];
-
   return (
     <>
       {clouds.map((c, i) => (
@@ -184,8 +160,8 @@ const FloatingClouds = () => {
 /* ── Flying Birds ── */
 const FlyingBirds = () => {
   const birds = [
-    { top: "8%",  duration: 20, delay: 0,   size: "text-sm" },
-    { top: "20%", duration: 28, delay: -10, size: "text-xs" },
+    { top: "7%",  duration: 20, delay: 0,   size: "text-xs md:text-sm" },
+    { top: "18%", duration: 28, delay: -10, size: "text-xs"             },
   ];
   return (
     <>
@@ -196,7 +172,13 @@ const FlyingBirds = () => {
           style={{ top: b.top }}
           initial={{ x: -60 }}
           animate={{ x: "110vw", y: [0, -15, 5, -10, 0] }}
-          transition={{ duration: b.duration, delay: b.delay, repeat: Infinity, ease: "linear", y: { duration: 4, repeat: Infinity } }}
+          transition={{
+            duration: b.duration,
+            delay: b.delay,
+            repeat: Infinity,
+            ease: "linear",
+            y: { duration: 4, repeat: Infinity },
+          }}
         >
           🕊
         </motion.div>
@@ -216,8 +198,8 @@ const Sparkles = ({ positions, completedIndices }) => (
           key={`spark-${idx}-${j}`}
           className="absolute w-1.5 h-1.5 rounded-full bg-yellow-400 pointer-events-none"
           style={{
-            left:  `${pos.x + (j - 1) * 3}%`,
-            top:   `${pos.y - 4}%`,
+            left:   `${pos.x + (j - 1) * 3}%`,
+            top:    `${pos.y - 5}%`,
             zIndex: 5,
           }}
           animate={{ opacity: [0, 1, 0], y: [0, -10, 0], scale: [0.5, 1, 0.5] }}
@@ -230,35 +212,21 @@ const Sparkles = ({ positions, completedIndices }) => (
 
 /* ============================================================
    MAP — Main Component
+   ✏️  EDITED: responsive height (was fixed clamp 600-900px)
+               now uses a percentage-based aspect-ratio approach
    ============================================================ */
 const Map = ({ data, filter, searchQuery, onNodeClick }) => {
   const mapRef = useRef(null);
   const [explorerPos, setExplorerPos] = useState(null);
   const [isMoving, setIsMoving]       = useState(false);
-  const [mapSize, setMapSize]         = useState({ w: 800, h: 600 });
 
-  /* Track map dimensions for SVG viewport */
-  useEffect(() => {
-    const measure = () => {
-      if (mapRef.current) {
-        setMapSize({
-          w: mapRef.current.offsetWidth,
-          h: mapRef.current.offsetHeight,
-        });
-      }
-    };
-    measure();
-    window.addEventListener("resize", measure);
-    return () => window.removeEventListener("resize", measure);
-  }, []);
-
-  /* Set explorer to default position (current day) on mount */
+  /* Set explorer to default position on mount */
   useEffect(() => {
     const defaultIdx = Math.min(currentDayIndex, NODE_POSITIONS.length - 1);
     setExplorerPos(NODE_POSITIONS[defaultIdx]);
   }, []);
 
-  /* Handle node click: move explorer + open modal */
+  /* Handle node click */
   const handleNodeClick = useCallback((day, index) => {
     setIsMoving(true);
     setExplorerPos(NODE_POSITIONS[index]);
@@ -266,17 +234,16 @@ const Map = ({ data, filter, searchQuery, onNodeClick }) => {
     onNodeClick(day);
   }, [onNodeClick]);
 
-  /* Build SVG path from all positions */
   const svgPath = buildSVGPath(NODE_POSITIONS);
 
-  /* Determine status for each day */
+  /* Determine node status */
   const getStatus = (index) => {
     if (data[index]?.completed) return "completed";
-    if (index === currentDayIndex)  return "current";
+    if (index === currentDayIndex) return "current";
     return "future";
   };
 
-  /* Filter visibility */
+  /* Filter/search visibility */
   const isNodeVisible = (day) => {
     if (filter === "completed"  && !day.completed) return false;
     if (filter === "incomplete" &&  day.completed) return false;
@@ -295,104 +262,118 @@ const Map = ({ data, filter, searchQuery, onNodeClick }) => {
     .filter((i) => i !== null);
 
   return (
+    /* ✏️  RESPONSIVE: padding-top % gives a natural aspect ratio on all screens.
+           On mobile  → 70vw tall (portrait friendly)
+           On tablet  → 60vw
+           On desktop → fixed min/max via the outer wrapper               */
     <div
       ref={mapRef}
-      className="map-area relative w-full overflow-hidden select-none"
-      style={{ minHeight: "600px", height: "clamp(600px, 75vh, 900px)" }}
+      className="map-area relative w-full select-none"
+      style={{
+        /* aspect-ratio trick: height = 55% of width, min 300px, max 700px */
+        paddingTop: "clamp(300px, 55%, 700px)",
+      }}
     >
-      {/* ── Background decorations ── */}
-      <MapDecorations />
-      <FloatingClouds />
-      <FlyingBirds />
+      {/* Inner absolute layer — fills the padded box */}
+      <div className="absolute inset-0">
+        {/* ── Background decorations ── */}
+        <MapDecorations />
+        <FloatingClouds />
+        <FlyingBirds />
 
-      {/* ── SVG Dotted Path ── */}
-      <svg
-        className="absolute inset-0 w-full h-full pointer-events-none"
-        viewBox={`0 0 100 100`}
-        preserveAspectRatio="none"
-        style={{ zIndex: 2 }}
-      >
-        {/* Shadow path */}
-        <path
-          d={svgPath}
-          fill="none"
-          stroke="rgba(92,46,0,0.3)"
-          strokeWidth="0.6"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          transform="translate(0.3, 0.3)"
-        />
-
-        {/* Completed segment (gold) */}
-        {currentDayIndex > 0 && (
+        {/* ── SVG Dotted Path ── */}
+        <svg
+          className="absolute inset-0 w-full h-full pointer-events-none"
+          viewBox="0 0 100 100"
+          preserveAspectRatio="none"
+          style={{ zIndex: 2 }}
+        >
+          {/* Drop shadow path */}
           <path
-            d={buildSVGPath(NODE_POSITIONS.slice(0, currentDayIndex + 1))}
+            d={svgPath}
             fill="none"
-            stroke="rgba(212,160,23,0.85)"
-            strokeWidth="0.7"
+            stroke="rgba(92,46,0,0.3)"
+            strokeWidth="0.8"
             strokeLinecap="round"
             strokeLinejoin="round"
-            strokeDasharray="1.5 1.2"
+            transform="translate(0.3, 0.4)"
+          />
+
+          {/* Gold completed segment */}
+          {currentDayIndex > 0 && (
+            <path
+              d={buildSVGPath(NODE_POSITIONS.slice(0, currentDayIndex + 1))}
+              fill="none"
+              stroke="rgba(212,160,23,0.9)"
+              strokeWidth="0.9"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeDasharray="1.8 1.4"
+            />
+          )}
+
+          {/* Brown dashes — full path */}
+          <motion.path
+            d={svgPath}
+            fill="none"
+            stroke="rgba(139,69,19,0.55)"
+            strokeWidth="0.6"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeDasharray="1.5 1.5"
+            className="treasure-path"
+          />
+
+          {/* Connector dots at each node */}
+          {NODE_POSITIONS.map((pos, i) => (
+            <circle
+              key={i}
+              cx={pos.x}
+              cy={pos.y}
+              r="0.6"
+              fill={
+                getStatus(i) === "completed"
+                  ? "rgba(212,160,23,0.8)"
+                  : "rgba(139,69,19,0.4)"
+              }
+            />
+          ))}
+        </svg>
+
+        {/* ── Sparkles ── */}
+        <Sparkles positions={NODE_POSITIONS} completedIndices={completedIndices} />
+
+        {/* ── Day Nodes ── */}
+        {data.map((day, index) => (
+          <div
+            key={day.day}
+            style={{
+              position: "absolute",
+              left:     `${NODE_POSITIONS[index]?.x ?? 0}%`,
+              top:      `${NODE_POSITIONS[index]?.y ?? 0}%`,
+              zIndex:   10,
+            }}
+          >
+            <DayNode
+              day={day}
+              status={getStatus(index)}
+              onClick={() => handleNodeClick(day, index)}
+              isFiltered={isNodeVisible(day)}
+            />
+          </div>
+        ))}
+
+        {/* ── Explorer Character ── */}
+        <Explorer position={explorerPos} isMoving={isMoving} />
+
+        {/* ── Dim overlay when filter/search active ── */}
+        {(filter !== "all" || searchQuery) && (
+          <div
+            className="absolute inset-0 pointer-events-none rounded-2xl"
+            style={{ background: "rgba(0,0,0,0.08)", zIndex: 8 }}
           />
         )}
-
-        {/* Full path (brown dashes) */}
-        <motion.path
-          d={svgPath}
-          fill="none"
-          stroke="rgba(139,69,19,0.55)"
-          strokeWidth="0.5"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          strokeDasharray="1.5 1.5"
-          className="treasure-path"
-        />
-
-        {/* Node connector dots */}
-        {NODE_POSITIONS.map((pos, i) => (
-          <circle
-            key={i}
-            cx={pos.x}
-            cy={pos.y}
-            r="0.5"
-            fill={getStatus(i) === "completed" ? "rgba(212,160,23,0.7)" : "rgba(139,69,19,0.4)"}
-          />
-        ))}
-      </svg>
-
-      {/* ── Sparkle overlays for completed nodes ── */}
-      <Sparkles positions={NODE_POSITIONS} completedIndices={completedIndices} />
-
-      {/* ── Day Nodes ── */}
-      {data.map((day, index) => (
-        <div
-          key={day.day}
-          style={{
-            position: "absolute",
-            left: `${NODE_POSITIONS[index]?.x || 0}%`,
-            top:  `${NODE_POSITIONS[index]?.y || 0}%`,
-            zIndex: 10,
-          }}
-        >
-          <DayNode
-            day={day}
-            status={getStatus(index)}
-            onClick={() => handleNodeClick(day, index)}
-            isFiltered={isNodeVisible(day)}
-          />
-        </div>
-      ))}
-
-      {/* ── Explorer Character ── */}
-      <Explorer position={explorerPos} isMoving={isMoving} />
-
-      {/* ── Dim overlay when filter active ── */}
-      {(filter !== "all" || searchQuery) && (
-        <div
-          className="absolute inset-0 pointer-events-none"
-          style={{ background: "rgba(0,0,0,0.08)", zIndex: 8 }}
-        />
-      )}
+      </div>
     </div>
   );
 };

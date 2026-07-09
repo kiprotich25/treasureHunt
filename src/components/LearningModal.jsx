@@ -72,8 +72,9 @@ const LearningModal = ({ day, onClose }) => {
   return (
     <AnimatePresence>
       {/* ── Backdrop ── */}
+      {/* ✏️ EDITED: p-0 on mobile so modal goes full-screen; p-4 on sm+ */}
       <motion.div
-        className="fixed inset-0 z-50 flex items-center justify-center p-4 modal-backdrop"
+        className="fixed inset-0 z-50 flex items-end sm:items-center justify-center sm:p-4 modal-backdrop"
         style={{ backgroundColor: "rgba(0,0,0,0.65)" }}
         variants={backdropVariants}
         initial="hidden"
@@ -83,17 +84,17 @@ const LearningModal = ({ day, onClose }) => {
       >
         {/* ── Modal Card ── */}
         <motion.div
-          className="modal-card relative w-full max-w-lg max-h-[90vh] overflow-y-auto rounded-2xl p-6 md:p-8"
+          className="modal-card relative w-full sm:max-w-lg max-h-[95vh] sm:max-h-[90vh] overflow-y-auto rounded-t-2xl sm:rounded-2xl p-5 sm:p-6 md:p-8 pb-8"
           variants={modalVariants}
           initial="hidden"
           animate="visible"
           exit="exit"
           onClick={(e) => e.stopPropagation()}
         >
-          {/* Close Button */}
+          {/* ✏️ EDITED: larger touch area on mobile (p-3 on sm:p-2) */}
           <motion.button
             onClick={onClose}
-            className="absolute top-4 right-4 p-2 rounded-full bg-amber-800/20 border border-amber-700/30 text-amber-800 dark:text-amber-300 hover:bg-amber-800/40 transition-colors"
+            className="absolute top-3 right-3 p-3 sm:p-2 rounded-full bg-amber-800/20 border border-amber-700/30 text-amber-800 dark:text-amber-300 hover:bg-amber-800/40 transition-colors z-10"
             whileHover={{ scale: 1.1, rotate: 90 }}
             whileTap={{ scale: 0.9 }}
           >
